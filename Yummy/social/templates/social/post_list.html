@@ -24,8 +24,14 @@
     {% for post in post_list %}
     <div class= "row justify-content-center mt-3">
         <div class="col-md-5 col-sm-12 border bottom ">
-          <p> <a style="text-decoration : none" class="text=primary" href="{% url 'profile' post.author.pk %}"> 
-          @{{ post.author }}</a>  {{ post.created_on }}</p>
+          <div>
+             <a href="{% url 'profile' post.author.userprofile.pk %}% "></a>
+            <img class="rounded-circle post-img" height="50" width="50" src="{{ post.author.userprofile.picture.url }}" />
+            <p class="post-text"> 
+              <a class="text=primary post-link" href="{% url 'profile' post.author.pk %}"> 
+              @{{ post.author }}</a>  {{ post.created_on }}
+            </p>
+          </div>  
           <div class = "position-relative" >
             <p> {{ post.Ingredients}}</p>
             <hr>  
@@ -36,7 +42,7 @@
             <form method="POST" action="{% url 'like' post.pk %}">
                {% csrf_token %}
                <input type="hidden" name="next" value="{{ request.path }}">
-               <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+               <button class="remove-default-btn" type="submit">
                   <i class="far fa-thumbs-up"> <span> {{ post.likes.all.count }} </span></i>
                </button> 
             </form>
