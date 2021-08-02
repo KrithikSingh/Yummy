@@ -71,6 +71,9 @@
                 </p>
             </div> 
           <div class = "position-relative" >
+            {% if post.image %}
+              <img src="{{ post.image.url }}" class="post-image" alt="">
+            {% endif %}
             <p> {{ post.Ingredients}}</p>
             <hr>  
             <p> {{ post.Recipe}}</p>

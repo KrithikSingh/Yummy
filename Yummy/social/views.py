@@ -10,23 +10,26 @@ from django.views.generic.edit import UpdateView, DeleteView
 # Create your views here.
 
 class PostListView(LoginRequiredMixin, View):
-  def get(self, request, *args, **kwargs):
-    logged_in_user = request.user
-    posts = Post.objects.filter(
+    def get(self, request, *args, **kwargs):
+      logged_in_user = request.user
+      posts = Post.objects.filter(
        author__userprofile__followers__in=[logged_in_user.id]
-    ).order_by('-created_on')
-    form = PostForm()
+        ).order_by('-created_on')
+      form = PostForm()
 
-    context = {
-      'post_list': posts,
-      'form': form,
+      context = {
+          'post_list':posts,
+          'form':form,
       }
 
-    return render(request, 'social/post_list.html', context)  
+      return render(request, 'social/post_list.html', context)  
     
     def post(self, request, *args, **kwargs):
-        posts = Post.objects.all().order_by('-created_on')
-        form = PostForm(request.POST)
+        logged_in_user = request.user
+        posts = Post.objects.filter(
+       author__userprofile__followers__in=[logged_in_user.id]
+        ).order_by('-created_on')
+        form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
           new_post = form.save(commit=False)
@@ -65,9 +68,8 @@ class PostDetailView(LoginRequiredMixin, View):
       new_comment.post = post
       new_comment.save()
 
-    comments = Comment.objects.filter(post=post).order_by('-created_on') 
+    comments = Comment.objects.filter(post=post).order_by('-created_on')  
 
-    notification = Notification.objects.create(notificaiton_type=2, from_user=request.user, to_user=post.author, post=post) 
     context = {
       'post': post,
       'form': form,
@@ -88,13 +90,13 @@ class CommentReplyView(LoginRequiredMixin, View):
       new_comment.parent = parent_comment
       new_comment.save()
 
-    notification = Notification.objects.create(notificaiton_type=2, from_user=request.user, to_user=parent_comment.author, comment=new_comment) 
+    # notification = Notification.objects.create(notification_Type= 2, from_user=request.user, to_user=parent_comment.author, comment=new_comment) 
     return redirect('post-detail', pk=post_pk)    
 
 
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
   model = Post
-  fields = ['Ingredients', 'Recipe']
+  fields = ['Title','Ingredients', 'Recipe']
   template_name = 'social/post_edit.html'
 
   def get_success_url(self):
@@ -178,8 +180,6 @@ class AddFollower(LoginRequiredMixin, View):
   def post(self, request, pk,*args,**kwargs):
     profile = UserProfile.objects.get(pk=pk)
     profile.followers.add(request.user)
-
-    notification = Notification.objects.create(notificaiton_type=3, from_user=request.user, to_user=profile.user) 
     
     return redirect('profile', pk=profile.pk)
 
@@ -203,7 +203,6 @@ class AddLike(LoginRequiredMixin, View):
 
     if not is_like:
       post.likes.add(request.user)
-      notification = Notification.objects.create(notificaiton_type=1, from_user=request.user, to_user=post.author, post=post) 
 
     if is_like:
       post.likes.remove(request.user)   
@@ -223,13 +222,12 @@ class AddCommentLike(LoginRequiredMixin, View):
 
     if not is_like:
       comment.likes.add(request.user)
-      notification = Notification.objects.create(notificaiton_type=1, from_user=request.user, to_user=comment.author, comment=comment) 
+      # notification = Notification.objects.create(notification_Type=1, from_user=request.user, to_user=comment.author, comment=comment) 
     if is_like:
       comment.likes.remove(request.user)   
 
     next = request.POST.get('next', '/')
-    return HttpResponseRedirect(next)
-
+    return HttpResponseRedirect(next)    
 
 class UserSearch(View):
   def get(self, request, *args, **kwargs):
@@ -242,7 +240,7 @@ class UserSearch(View):
       'profile_list': profile_list,
     }
 
-    return render(request, 'social/search.html', context)
+    return render(request, 'social/search.html', context)    
 
 class ListFollowlers(View):
   def get(self, request, pk, *argf, **kwargs):
@@ -254,7 +252,7 @@ class ListFollowlers(View):
       'followers': followers,
     }
 
-    return render(request, 'social/followers_list.html', context)
+    return render(request, 'social/followers_list.html', context)    
 
 class PostNotification(View):
   def get(self, request, notification_pk, post_pk, *args, **kwargs):
@@ -285,4 +283,4 @@ class RemoveNotification(View):
     notification.save()
 
     return HttpResponse('Success', content_type='text/plain')
-    
+        

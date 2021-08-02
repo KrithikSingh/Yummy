@@ -8,6 +8,8 @@ from django.dispatch import receiver
 # Create your models here.
 
 class Post(models.Model):
+  Title = models.CharField(max_length=50, default="Title")
+  image = models.ImageField(upload_to='uploads/post_photos', blank=True, null=True)
   Ingredients = models.TextField()
   Recipe = models.TextField() 
   created_on = models.DateTimeField(default=timezone.now)
@@ -33,8 +35,6 @@ class Comment(models.Model):
     if self.parent is None:
       return True
     return False  
-   
-
 class UserProfile(models.Model):
   user = models.OneToOneField(User, primary_key=True, verbose_name=("user"), on_delete=models.CASCADE)
   name = models.CharField(blank=True,null=True, max_length=50)
@@ -59,6 +59,6 @@ class Notification(models.Model):
   from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE, null = True)
   post = models.ForeignKey('Post', on_delete =models.CASCADE, related_name='+', blank=True, null=True)
   comment = models.ForeignKey('Comment', on_delete =models.CASCADE, related_name='+', blank=True, null=True)
-  notificaiton_Type = models.IntegerField()
+  notification_Type = models.IntegerField()
   date = models.DateTimeField(default=timezone.now)
   user_has_seen = models.BooleanField(default=False)

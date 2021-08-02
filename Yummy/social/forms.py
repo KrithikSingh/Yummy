@@ -12,10 +12,13 @@ class PostForm(forms.ModelForm):
         'placeholder': 'Enter the Recipe...'
     }))
 
+    Title = forms.CharField(label='Title', max_length=50,)
+
+    image = forms.ImageField(required=False)
 
     class Meta:
         model = Post
-        fields = ['Ingredients', 'Recipe']
+        fields = ['Title','Ingredients', 'Recipe','image']
 
 
 class CommentForm(forms.ModelForm):

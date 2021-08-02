@@ -10,12 +10,12 @@ function commentReplyToggle(parent_id){
 }
 
 function showNotifications() {
-    const container = document.getElementById(notification_container);
+    const change = document.getElementById('para');
 
-    if (container.classList.contains('d-none')) {
-        container.classList.remove('d-none');
+    if  (change.classList.contains('d-none')) {
+     change.classList.remove('d-none');
     } else{
-        container.classList.add('d-none');
+     change.classList.add('d-none');
     }
 }
 
