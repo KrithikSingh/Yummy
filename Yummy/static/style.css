@@ -1,12 +1,14 @@
-/* body{
-    background-color: #171717;
-} */
+body{
+    background-color: #343a40;
+}
 
 
 .edit-color{
-    color: #333;
+    color: lightgreen;
 }
-
+.delete-color{
+	color: red;
+}
 .post-link{
     text-decoration: none;
 }
@@ -90,4 +92,42 @@
 	color: rgb(180, 25, 25);
 	transition: 0.3s;
 	cursor: pointer;
+}
+.nav-design{
+	margin-left: 2rem;
+}
+
+.bkgclr{
+	color: greenyellow;
+	font-size: x-large;
+}
+
+.title-font{
+	font-family: 'Hahmlet', serif; 
+	font-size: xx-large;
+	color: gold;
+}
+.text-edit{
+	color: white;
+}
+.border-edit{
+	border-bottom: gold 1px solid;
+}
+.dateandtime{
+	color:white;
+	font-weight: 600;
+}
+
+.border-edit-post{
+	border: gold 1px solid;
+}
+.yummy{
+	font-family: 'Kaushan Script', cursive;
+	font-size: xxx-large;
+}
+.text-color{
+	color: green;
+}
+.title-text-color{
+	color: gold;
 }

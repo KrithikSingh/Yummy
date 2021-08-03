@@ -1,7 +1,7 @@
 <button type="button" class="btn btn-primary" onclick="showNotifications()">
-  Notifications <span class="badge badge-light">{{ notifications.count }}</span>
+  <i class="fas fa-bell"></i> <span class="badge badge-light">{{ notifications.count }}</span>
 </button>
-	<div class="dropdown-content" id="para">
+	<div class="dropdown-content d-none" id="para">
 		{% for notification in notifications %}
 
 			{% if notification.post %}

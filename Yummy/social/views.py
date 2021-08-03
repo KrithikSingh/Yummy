@@ -15,14 +15,29 @@ class PostListView(LoginRequiredMixin, View):
       posts = Post.objects.filter(
        author__userprofile__followers__in=[logged_in_user.id]
         ).order_by('-created_on')
-      form = PostForm()
+      
 
       context = {
           'post_list':posts,
-          'form':form,
+          
       }
-
       return render(request, 'social/post_list.html', context)  
+
+class AddPostView(LoginRequiredMixin, View):  
+    def get(self, request, *args, **kwargs):
+        logged_in_user = request.user
+        posts = Post.objects.filter(
+        author__userprofile__followers__in=[logged_in_user.id]
+          ).order_by('-created_on')
+        form = PostForm()
+
+        context = {
+            'post_list':posts,
+            'form':form
+            
+        }
+        return render(request, 'social/add-post.html', context)  
+    
     
     def post(self, request, *args, **kwargs):
         logged_in_user = request.user
@@ -41,7 +56,7 @@ class PostListView(LoginRequiredMixin, View):
           'form':form,
         }
 
-        return render(request, 'social/post_list.html', context)  
+        return render(request, 'social/add-post.html', context)  
 
 
 class PostDetailView(LoginRequiredMixin, View):
@@ -96,7 +111,7 @@ class CommentReplyView(LoginRequiredMixin, View):
 
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
   model = Post
-  fields = ['Title','Ingredients', 'Recipe']
+  fields = ['Title','Ingredients', 'Recipe','image']
   template_name = 'social/post_edit.html'
 
   def get_success_url(self):
@@ -235,9 +250,13 @@ class UserSearch(View):
     profile_list = UserProfile.objects.filter(
       Q(user__username__icontains=query)
     )
+    title_list = Post.objects.filter(
+      Q(Title__icontains=query)
+    )
 
     context ={
       'profile_list': profile_list,
+      'title_list': title_list,
     }
 
     return render(request, 'social/search.html', context)    

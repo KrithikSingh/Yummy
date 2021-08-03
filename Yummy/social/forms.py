@@ -14,7 +14,7 @@ class PostForm(forms.ModelForm):
 
     Title = forms.CharField(label='Title', max_length=50,)
 
-    image = forms.ImageField(required=False)
+    image = forms.ImageField()
 
     class Meta:
         model = Post

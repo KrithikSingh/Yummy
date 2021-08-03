@@ -3,40 +3,44 @@
 {% load static %}
 
 {% block content %}
-<div class=container>
+<div class="container">
   <div class= "row mt-5">
     <div class="col-md-5 col-sm-6">
       <a href="{% url 'post-list' %}" class="btn btn-dark">Back To Feed</a>
     </div>
   </div>
-    <hr>
-  <div class= "row justify-content-center mt-3">
-    <div class="col-md-5 col-sm-12 border bottom">
+  <hr>
+</div>  
+    
+  <div class= "row justify-content-center mt-3 ">
+    <div class="col-md-5 col-sm-12 border-edit">
       <div>
        <a href="{% url 'profile' post.author.userprofile.pk %}% "></a>
         <img class="rounded-circle post-img" height="50" width="50" src="{{ post.author.userprofile.picture.url }}" />
+        <h3 class="title-font">{{ post.Title }}</h3>
         <p class="post-text"> 
           <a class="text=primary post-link" href="{% url 'profile' post.author.pk %}"> 
-          @{{ post.author }}</a>  {{ post.created_on }}
+          @{{ post.author }}</a> <span class="dateandtime">{{ post.created_on }}</span> 
         </p>
       </div> 
         
        {% if request.user == post.author %}
           <a href=" {% url 'post-edit' post.pk %} "class="edit-color"><i class="far fa-edit"></i> </a>
-          <a href=" {% url 'post-delete' post.pk %} "class="edit-color"><i class="fas fa-trash"></i> </a>
+          <a href=" {% url 'post-delete' post.pk %} "class="delete-color"><i class="fas fa-trash"></i> </a>
         {% endif %}
-         {% if post.image %}
-            <img src="{{ post.image.url }}" class="post-image" alt="">
-          {% endif %}
-        <p> {{ post.Ingredients}}</p> 
+        <hr>
+        {% if post.image %}
+          <img src="{{ post.image.url }}" class="post-image" alt="">
+        {% endif %}
+        <p class="text-edit">Ingredients:  {{ post.Ingredients}}</p> 
         <hr> 
-       <p> {{ post.Recipe}}</p>
+       <p class="text-edit">Recipe: {{ post.Recipe}}</p>
       <div class="d-flex flex-row">
         <form method="POST" action="{% url 'like' post.pk %}">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.path }}">
           <button class="remove-default-btn" type="submit">
-            <i class="far fa-thumbs-up"> <span>{{ post.likes.all.count }}</span></i>
+            <i class="fas fa-thumbs-up"> <span>{{ post.likes.all.count }}</span></i>
           </button>
         </form>
       </div>
@@ -117,7 +121,7 @@
   {% endfor %}  
   {% endif %}
   {% endfor %}  
-</div>
+
 
 
 {% endblock content %}

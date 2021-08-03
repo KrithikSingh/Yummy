@@ -1,44 +1,35 @@
 {% load custom_tags %}
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
     <div class="container-fluid">
-      <a class="navbar-brand"
+      <a class="navbar-brand yummy"
         {% if user.is_authenticated %}
         href="{% url 'post-list' %}"
         {% else %}  
         href="{% url 'index' %}"
         {% endif %}
-      >Yummy</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      >Yummy !</a>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav me-auto mb-4 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+       {% if user.is_authenticated %}
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item ml-auto">
+            <a class="nav-link active nav-design " aria-current="page" href="{% url 'add-post' %}">Add Post</a>
           </li>
         </ul>
-        {% if user.is_authenticated %}
+        <div class="nav-item">
+          {% show_notifications %}
+        </div> 
         <div class = "nav-item dropdown">
           <a class="nav-link dropdown-toggle text dark" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'profile' request.user.pk %}">Profile</a></li>
             <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign Out</a></li>
           </ul>
-        </div>
-        <div class="nav-item">
-            {% show_notifications %}
-        </div>  
-        {% endif %}
-        <form class="d-flex" method="GET" action="{% url 'profile_search' %}">
+        </div> 
+         <form class="d-flex" method="GET" action="{% url 'profile_search' %}">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='query' vlaue="{{ request.GET.query }}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        {% endif %}
       </div>
     </div>
   </nav>

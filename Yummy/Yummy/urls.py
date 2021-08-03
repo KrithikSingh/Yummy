@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path, include 
 from django.conf import settings
 from django.conf.urls.static import static
-
+from social.views import AddPostView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('landing.urls')),
     path('accounts/', include('allauth.urls')),
     path('social/', include('social.urls')),
+    path('addpost/', AddPostView.as_view(), name='add-post'),
 ]
 
 if settings.DEBUG:
