@@ -9,11 +9,10 @@
         </div>
         <div class="row justify-content-center mt-3">
             <div class="col-md-5 col-sm-12"> 
-                {% if profile.name %}
-                    <h3 class="bkgclr"> Followers for {{ profile.name }}</h3>
-                {% else %}
-                    <h3>Followers for @{{ profile.name.username }} </h3>
-                {% endif %}   
+              
+               
+                    <h3 class="bkgclr">Followers for : @{{ profile.user.username }} </h3>
+                
             </div>
         </div>
         <hr>

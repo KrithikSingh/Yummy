@@ -131,3 +131,27 @@ body{
 .title-text-color{
 	color: gold;
 }
+.all-black{
+	background-color: black;
+	color: rosybrown;
+
+}
+.profile-name{
+	color: whitesmoke;
+}
+.bad{
+	color: plum;
+	font-size: 30px;
+}
+.badt{
+	color: peachpuff;
+	font-size: 25px;
+}
+.maino{
+	font-family: 'Lobster', cursive;
+
+}
+.maint{
+	font-family: 'Lobster', cursive;
+
+}

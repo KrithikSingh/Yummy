@@ -32,15 +32,15 @@
         {% if post.image %}
           <img src="{{ post.image.url }}" class="post-image" alt="">
         {% endif %}
-        <p class="text-edit">Ingredients:  {{ post.Ingredients}}</p> 
+        <pre class="text-edit"><h5>Ingredients:</h5>  {{ post.Ingredients}}</pre> 
         <hr> 
-       <p class="text-edit">Recipe: {{ post.Recipe}}</p>
-      <div class="d-flex flex-row">
+       <pre class="text-edit"><h5>Recipe:</h5> {{ post.Recipe}}</pre>
+      <div class="d-flex flex-row mt-5">
         <form method="POST" action="{% url 'like' post.pk %}">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.path }}">
           <button class="remove-default-btn" type="submit">
-            <i class="fas fa-thumbs-up"> <span>{{ post.likes.all.count }}</span></i>
+            <i class="fas fa-thumbs-up fa-2x"> <span>{{ post.likes.all.count }}</span></i>
           </button>
         </form>
       </div>

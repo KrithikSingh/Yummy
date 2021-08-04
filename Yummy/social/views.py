@@ -105,7 +105,7 @@ class CommentReplyView(LoginRequiredMixin, View):
       new_comment.parent = parent_comment
       new_comment.save()
 
-    # notification = Notification.objects.create(notification_Type= 2, from_user=request.user, to_user=parent_comment.author, comment=new_comment) 
+    notification = Notification.objects.create(notification_Type= 2, from_user=request.user, to_user=parent_comment.author, comment=new_comment) 
     return redirect('post-detail', pk=post_pk)    
 
 
@@ -195,7 +195,7 @@ class AddFollower(LoginRequiredMixin, View):
   def post(self, request, pk,*args,**kwargs):
     profile = UserProfile.objects.get(pk=pk)
     profile.followers.add(request.user)
-    
+    notification = Notification.objects.create(notification_Type= 3, from_user=request.user, to_user=profile.user) 
     return redirect('profile', pk=profile.pk)
 
 class RemoveFollower(LoginRequiredMixin, View):
@@ -237,7 +237,7 @@ class AddCommentLike(LoginRequiredMixin, View):
 
     if not is_like:
       comment.likes.add(request.user)
-      # notification = Notification.objects.create(notification_Type=1, from_user=request.user, to_user=comment.author, comment=comment) 
+      notification = Notification.objects.create(notification_Type=1, from_user=request.user, to_user=comment.author, comment=comment) 
     if is_like:
       comment.likes.remove(request.user)   
 
